@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: plabutils
+Version: 0.5.dev0
+Summary: Some utils for working with python and latex for a simple lab environment
+Home-page: https://github.com/pypa/sampleproject
+Author: Mario García
+Author-email: mariogarcc@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
