@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Oct 11 23:59:46 2018
+
+@author: xabia
+"""
+#read a file containing useful data to python lists.
+
+import pandas as pd 
+import numpy as np
+
+
+def read_data(filename)
+    try: 
+        spl = filename.split('.')
+        #data and labels obtained directly from a xlsx file
+        if spl[1] == 'xlsx': 
+            file = pd.read_excel(filename)
+            labels = file.columns.values.to_list()
+            data = file.values.to_list()
+            
+            return data , labels
+        
+        elif spl[1] == 'txt':
+        #only data can be retrieved, without labels
+            data = np.loadtxt(filename)
+            
+            return data
+    
+        elif spl[1] == 'csv': 
+            
+            file = pd.read_csv(filename)
+            labels = file.columns.values.to_list()
+            data = file.values.to_list()
+            
+            return data, labels
+        
+            
+    
+    except (FileNotFoundError, IOError):
+        print("Wrong file or file path")
