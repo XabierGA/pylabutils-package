@@ -1,16 +1,15 @@
-# To do:
-# Allow more freedom at naming variables and parameters
-# Introduce graphical representation
+# Variables have to be x and y, with y = f(x)
+# y has to be left alone in the first term of the equation
+# Parameters go in CAPS (unfortunately they cannot have numbers
+# in their names, like A1, A2. You have to choose different letters, like
+# AA, AB, etc.), number constants go between square brackets.
+# For example: y = np.exp(TA / x + TB / x) + CP * [np.e]
+# here TA, TB and CP are parameters and np.e is obviously a constant.
 
 import re
 import copy
 import numpy as np
 import scipy.optimize as so
-
-# Function has to be string
-# Function has to start by 'y = []'
-# where y (can be any other letter) is the returning variable and
-# [] is the rest of the function
 
 def curvefit(func, x, y, dev, *guess):
 
@@ -25,24 +24,22 @@ def curvefit(func, x, y, dev, *guess):
         tempcurve = copy.copy(func)
 
         for i in range(len(parms)):
-            re.sub(parms[i], guess[i], tempcurve)
+            tempcurve = re.sub(parms[i], str(values[i]), tempcurve)
         for i in range(len(nums)):
-            re.sub(nums[i], nums[i][1:-1])
+            tempcurve = re.sub('\\' + nums[i][:-1] + '\\]', nums[i][1:-1], tempcurve)
 
-        if '= ' in tempf:
-            y = eval(tempf[tempf.find('=')+1:])
+        if '= ' in tempcurve:
+            y = eval(tempcurve[tempcurve.find('=')+1:])
         else:
-            y = eval(tempf[tempf.find('='):])
+            y = eval(tempcurve[tempcurve.find('='):])
         return y
 
     sols = so.curve_fit(curve, x, y, p0 = guess, sigma = dev, absolute_sigma = True)
-    results = [(sol[0][i], np.sqrt(np.diag(sol[1][i]))) for i in (1, 2) for sol in sols]
-    return results
+    return [sols[0], np.sqrt(np.diag(sols[1]))]
 
 
-myf = 'y = A * x + B'
-ydata = (2, 4, 6, 8)
-xdata = (3, 4, 5, 6)
-ddata = (0.1, 0.1, 0.1, 0.1)
 
-curvefit(myf, xdata, ydata, ddata)
+# To do:
+# Allow more freedom at naming variables and parameters
+# and at writing equations
+# Introduce graphical representation
